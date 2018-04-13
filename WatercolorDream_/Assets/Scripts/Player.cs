@@ -14,7 +14,7 @@ public class Player : MonoBehaviour {
         cmyk = new CMYK(Color.white);
         scope = GetComponentInChildren<Camera>();
         rigidbody = GetComponent<Rigidbody>();
-        speed = 0.5f;
+        speed = 0.3f;
 	}
 	
 	// Update is called once per frame

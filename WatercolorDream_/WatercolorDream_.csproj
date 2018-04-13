@@ -286,8 +286,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Area.cs" />
-    <Compile Include="Assets\CMYK.cs" />
-    <Compile Include="Assets\Player.cs" />
+    <Compile Include="Assets\Scripts\Area.cs" />
+    <Compile Include="Assets\Scripts\CMYK.cs" />
+    <Compile Include="Assets\Scripts\Map.cs" />
+    <Compile Include="Assets\Scripts\MapSpawning.cs" />
+    <Compile Include="Assets\Scripts\Player.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -13,7 +13,6 @@ public class Area : MonoBehaviour {
         {
             tiles.Add(tile.gameObject);
         }
-        //실험용 코드
         tiles[0].GetComponent<MeshRenderer>().material.color = Color.yellow;
         tiles[1].GetComponent<MeshRenderer>().material.color = Color.black;
         tiles[2].GetComponent<MeshRenderer>().material.color = Color.cyan;
@@ -32,7 +31,7 @@ public class Area : MonoBehaviour {
         for(int i = 0; i < 7; i++)
         {
             if (area[i] == TileTypes.empty)
-                tiles_[i].SetActive(false);//왜 여기서 out of index가 뜨나요~~~
+                tiles_[i].SetActive(false);
                 //Destroy(tiles[i]);
             if (area[i] == TileTypes.starttile)
                 tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
