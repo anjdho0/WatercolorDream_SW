@@ -6,6 +6,7 @@ public class Area : MonoBehaviour {
 
     public List<GameObject> tiles = new List<GameObject>();
     public TileTypes[] tilesTypes;
+    public Color[] colors;
 
 	// Use this for initialization
 	void Awake () {
@@ -13,18 +14,13 @@ public class Area : MonoBehaviour {
         {
             tiles.Add(tile.gameObject);
         }
-        tiles[1].GetComponent<MeshRenderer>().material.color = Color.black;
-        tiles[2].GetComponent<MeshRenderer>().material.color = Color.cyan;
-        tiles[3].GetComponent<MeshRenderer>().material.color = Color.blue;
-        tiles[4].GetComponent<MeshRenderer>().material.color = Color.grey;
-        tiles[5].GetComponent<MeshRenderer>().material.color = Color.red;
-        tiles[6].GetComponent<MeshRenderer>().material.color = Color.yellow;
 
     }
 
-    public void Init(TileTypes[] area)
+    public void Init(TileTypes[] area, Color[] _colors)
     {
         tilesTypes = area;
+        colors = _colors;
 
         for(int i = 0; i < 7; i++)
         {
@@ -33,6 +29,12 @@ public class Area : MonoBehaviour {
 
             if (area[i] == TileTypes.starttile)
                 tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
+
+            if (area[i] == TileTypes.normaltile)
+                tiles[i].GetComponent<MeshRenderer>().material.color = colors[i];
+
+            if (area[i] == TileTypes.desttile)
+                tiles[i].GetComponent<MeshRenderer>().material.color = colors[i];
         }
 
     }

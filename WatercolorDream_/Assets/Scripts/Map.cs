@@ -5,21 +5,24 @@ using UnityEngine;
 public class Map {
 
     public List<TileTypes[]> map;
+    public List<Color[]> areaColors;
     public List<NextAreaPos> areasPos;
 
     public Map()
     {
         map = new List<TileTypes[]>();
         areasPos = new List<NextAreaPos>();
+        areaColors = new List<Color[]>();
     }
 
-    public void AddArea(TileTypes[] area, NextAreaPos nextPos)
+    public void AddArea(TileTypes[] area, NextAreaPos nextPos, Color[] colors)
     {
         map.Add(area);
         areasPos.Add(nextPos);
+        areaColors.Add(colors);
     }
     
-    public void AddArea(int[] area, int nextPos)
+    public void AddArea(int[] area, int nextPos, Color[] colors)
     {
         TileTypes[] area_ = new TileTypes[7];
 
@@ -54,6 +57,8 @@ public class Map {
                 areasPos.Add(NextAreaPos.right);
                 break;
         }
+
+        areaColors.Add(colors);
     }
 	
 }
