@@ -34,5 +34,15 @@ public class CMYK {
         rgb.b = (1 - y) * (1 - k);
         return rgb;
     }
+
+    public static CMYK RGBToCMYK(Color rgb)
+    {
+        return new CMYK(rgb);
+    }
+
+    public static CMYK operator +(CMYK a, CMYK b)
+    {
+        return new CMYK(Mathf.Min(1.0f, a.c + b.c), Mathf.Min(1.0f, a.m + b.m), Mathf.Min(1.0f, a.y + b.y), Mathf.Min(1.0f, a.k + b.k));
+    }
 	
 }

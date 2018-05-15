@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
     public Camera scope;
     public Rigidbody rigidbody;
     public float speed;
+    Quaternion dontturn;
 
 	// Use this for initialization
 	void Start () {
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour {
         scope = GetComponentInChildren<Camera>();
         rigidbody = GetComponent<Rigidbody>();
         speed = 0.3f;
+        dontturn = transform.rotation;
 	}
 	
 	// Update is called once per frame
@@ -35,13 +37,16 @@ public class Player : MonoBehaviour {
         {
             gameObject.transform.Translate(gameObject.transform.forward.normalized * (-1) * speed);
         }
+        transform.rotation = dontturn;
 	}
     
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")) 
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Tile") && rigidbody.velocity.y <= 0) 
         {
+            cmyk += CMYK.RGBToCMYK(collision.gameObject.GetComponentInChildren<MeshRenderer>().material.color);
+            gameObject.GetComponent<MeshRenderer>().material.color = cmyk.CMYKToRGB();
             rigidbody.AddForce(collision.gameObject.transform.up * 300, ForceMode.Acceleration);
         }
     }

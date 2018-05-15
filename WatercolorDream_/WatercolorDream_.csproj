@@ -286,10 +286,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Area.cs" />
+    <Compile Include="Assets\Scripts\AreaEditor.cs" />
     <Compile Include="Assets\Scripts\CMYK.cs" />
+    <Compile Include="Assets\Scripts\FSM.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Map.cs" />
     <Compile Include="Assets\Scripts\MapSpawning.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Scripts\UIManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\MapList.txt" />

@@ -7,16 +7,20 @@ using UnityEngine;
 public class MapSpawning : MonoBehaviour {
 
     public List<Map> maps = new List<Map>();
-    public GameObject area;
+    public GameObject area, player;
     public Map curMap;
     public int stageNum;
+    GameManager gameManager;
+    
 
     // Use this for initialization
     void Start () {
         ImportingMap();
-        stageNum = 0;
-        curMap = maps[0];
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        stageNum = gameManager.stageNum;
+        curMap = maps[stageNum];
         MapSpawn();
+        gameManager.fsm.UpdateStates();
 	}
 	
 	// Update is called once per frame
@@ -25,7 +29,7 @@ public class MapSpawning : MonoBehaviour {
             NextStage();
 	}
 
-    void ImportingMap()//st가 맵의 시작, end가 맵의 종료. MapList의 0~3의 정수는 타일의 타입. 줄의 마지막에 있는 4이상의 정수들은 다음 타일이 어디로 생성될 지를 정함
+    void ImportingMap()
     {
         StreamReader file = new StreamReader("Assets\\Scripts\\MapList2.txt");
         bool isFile = file != null ? true : false;
@@ -98,6 +102,7 @@ public class MapSpawning : MonoBehaviour {
     {
         GameObject curStage = new GameObject("curStage");
         Vector3 areaSpawnPos = transform.position;
+        Instantiate(player,transform.position + new Vector3(0, 5, 0), transform.rotation);
 
 		for(int i = 0; i < curMap.map.Count; i++)
         {

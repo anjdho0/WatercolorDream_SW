@@ -2,19 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class Area : MonoBehaviour {
 
-    public List<GameObject> tiles = new List<GameObject>();
+    public GameObject[] tiles;
     public TileTypes[] tilesTypes;
     public Color[] colors;
-
-	// Use this for initialization
+    
 	void Awake () {
+        tiles = new GameObject[7];
+        colors = new Color[7];
+        int i = 0;
         foreach(var tile in GetComponentsInChildren<MeshRenderer>())
         {
-            tiles.Add(tile.gameObject);
+            tiles[i] = tile.gameObject;
+            colors[i] = tile.material.color;
+            i++;
         }
-
     }
 
     public void Init(TileTypes[] area, Color[] _colors)

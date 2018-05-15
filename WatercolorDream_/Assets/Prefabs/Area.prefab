@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4939619191547620}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tile (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4772488629659796}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4277486956330176}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tile (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4123800520787992}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tile (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4564835061506442}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tile (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4179720929975410}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tile (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4739011951725480}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tile (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +278,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1312879790364438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -39.78, y: 1.2, z: 7.817315}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4772488629659796}
@@ -865,3 +865,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tiles: []
   tilesTypes: 
+  colors: []
