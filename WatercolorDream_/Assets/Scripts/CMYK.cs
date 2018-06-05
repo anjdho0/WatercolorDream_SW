@@ -20,10 +20,10 @@ public class CMYK {
 
     public CMYK(Color rgb)
     {
-        float k = 1 - Mathf.Max(rgb.r, rgb.g, rgb.b);
-        float c = (1 - rgb.r - k) / (1 - k);
-        float m = (1 - rgb.g - k) / (1 - k);
-        float y = (1 - rgb.b - k) / (1 - k);
+        k = 1 - Mathf.Max(rgb.r, rgb.g, rgb.b);
+        c = (1 - rgb.r - k) / (1 - k);
+        m = (1 - rgb.g - k) / (1 - k);
+        y = (1 - rgb.b - k) / (1 - k);
     }
 
     public Color CMYKToRGB()

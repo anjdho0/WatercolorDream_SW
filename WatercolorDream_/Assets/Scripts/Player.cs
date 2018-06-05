@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
     public Rigidbody rigidbody;
     public float speed;
     Quaternion dontturn;
+    bool isFalling;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour {
         speed = 0.3f;
         dontturn = transform.rotation;
         GameObject.Find("Main Camera").SetActive(false);
+        isFalling = true;
 	}
 	
 	// Update is called once per frame
@@ -39,13 +41,19 @@ public class Player : MonoBehaviour {
             gameObject.transform.Translate(gameObject.transform.forward.normalized * (-1) * speed);
         }
         transform.rotation = dontturn;
+        if(rigidbody.velocity.y <=0 && transform.position.y >= 5)
+        {
+            isFalling = true;
+        }
 	}
     
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Tile") && rigidbody.velocity.y <= 0) 
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Tile") && isFalling) 
         {
+            Debug.Log(rigidbody.velocity.y);
+            isFalling = false;
             cmyk += CMYK.RGBToCMYK(collision.gameObject.GetComponentInChildren<MeshRenderer>().material.color);
             gameObject.GetComponent<MeshRenderer>().material.color = cmyk.CMYKToRGB();
             rigidbody.AddForce(collision.gameObject.transform.up * 300, ForceMode.Acceleration);
