@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour {
 
     public void OnClickedSelectStageButton()
     {
-        Debug.Log("SelectStage");
+        Debug.Log("SelectStageclicked");
         MainMenu.SetActive(false);
         SelectStage.SetActive(true);
         gameManager.fsm.next = StateType.SelectStage;

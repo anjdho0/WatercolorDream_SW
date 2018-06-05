@@ -55,7 +55,7 @@ public class FSM  {
     public void UpdateStates()
     {
         current = next;
-        Debug.Log(current.ToString());
+        Debug.Log("next states is " + current.ToString());
         StartCurrentState();
         Debug.Log("updateStates");
     }

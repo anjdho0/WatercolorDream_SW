@@ -17,6 +17,7 @@ public class Player : MonoBehaviour {
         rigidbody = GetComponent<Rigidbody>();
         speed = 0.3f;
         dontturn = transform.rotation;
+        GameObject.Find("Main Camera").SetActive(false);
 	}
 	
 	// Update is called once per frame

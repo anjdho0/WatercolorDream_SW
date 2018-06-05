@@ -42,7 +42,7 @@ public class CMYK {
 
     public static CMYK operator +(CMYK a, CMYK b)
     {
-        return new CMYK(Mathf.Min(1.0f, a.c + b.c), Mathf.Min(1.0f, a.m + b.m), Mathf.Min(1.0f, a.y + b.y), Mathf.Min(1.0f, a.k + b.k));
+        return new CMYK((a.c + b.c)/ 2, (a.m + b.m) / 2,(a.y + b.y) / 2, (a.k + b.k) / 2);
     }
 	
 }
