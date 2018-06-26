@@ -54,15 +54,19 @@ public class FSM  {
 
     public void UpdateStates()
     {
-        current = next;
-        Debug.Log("next states is " + current.ToString());
-        StartCurrentState();
-        Debug.Log("updateStates");
+        if (current != next)
+        {
+            current = next;
+            Debug.Log("next states is " + current.ToString());
+            StartCurrentState();
+            Debug.Log("updateStates");
+        }
     }
 
     #region OnStates
     void OnStateLoadTitle()
     {
+        Debug.Log("LoadTitle");
         Object.DontDestroyOnLoad(GameObject.Find("GameManager"));
         SceneManager.LoadScene("MainMenu");
         Debug.Log("MainMenuSceneLoaded");
@@ -71,49 +75,57 @@ public class FSM  {
     
     void OnStateMainMenu()
     {
-        
+        Debug.Log("MainMenu");
     }
 
     void OnStateSelectStage()
     {
-        
+        Debug.Log("SelectStage");
     }
 
     void OnStateLoadStage()
     {
+        Debug.Log("LoadStage");
         Object.DontDestroyOnLoad(GameObject.Find("GameManager"));
         SceneManager.LoadScene("InGame");
+        Debug.Log("InGameSceneLoaded");
         next = StateType.InGame;
     }
 
     void OnStateInGame()
     {
-
+        Debug.Log("InGame");
     }
 
     void OnStateGameOver()
     {
-        
+        Debug.Log("GameOver");
     }
 
     void OnStateInGameMenu()
     {
-
+        Debug.Log("InGameMenu");
+        Time.timeScale = 0;
     }
 
     void OnStateRetry()
     {
-
+        Debug.Log("Retry");
+        Time.timeScale = 1;
+        next = StateType.LoadStage;
     }
 
     void OnStateGiveUp()
     {
-
+        Debug.Log("GiveUp");
+        Time.timeScale = 1;
+        next = StateType.LoadTitle;
     }
 
     void OnStateResume()
     {
-
+        Debug.Log("Resume");
+        Time.timeScale = 1;
     }
 
     void OnStateClear()

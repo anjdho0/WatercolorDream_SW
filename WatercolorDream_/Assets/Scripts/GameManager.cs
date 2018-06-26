@@ -10,11 +10,12 @@ public class GameManager : MonoBehaviour {
 
 	void Start () {
         fsm.current = StateType.MainMenu;
-        fsm.next = StateType.SelectStage;
+        fsm.next = StateType.MainMenu;
         Debug.Log("manager start");
 	}
 	
 	void Update () {
-       
+        fsm.UpdateStates();
 	}
+    
 }

@@ -288,6 +288,7 @@
     <Compile Include="Assets\Scripts\Area.cs" />
     <Compile Include="Assets\Scripts\AreaEditor.cs" />
     <Compile Include="Assets\Scripts\CMYK.cs" />
+    <Compile Include="Assets\Scripts\FadeOut.cs" />
     <Compile Include="Assets\Scripts\FSM.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Map.cs" />

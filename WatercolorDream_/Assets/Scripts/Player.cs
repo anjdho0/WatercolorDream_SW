@@ -7,56 +7,60 @@ public class Player : MonoBehaviour {
     public CMYK cmyk;
     public Camera scope;
     public Rigidbody rigidbody;
-    public float speed;
+    float speed;
+    float angle;
     Quaternion dontturn;
     bool isFalling;
+    bool canMove;
+    GameManager gameManager;
 
 	// Use this for initialization
 	void Start () {
+        GameObject.Find("Main Camera").SetActive(false);
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         cmyk = new CMYK(Color.white);
         scope = GetComponentInChildren<Camera>();
         rigidbody = GetComponent<Rigidbody>();
         speed = 0.3f;
-        dontturn = transform.rotation;
-        GameObject.Find("Main Camera").SetActive(false);
+        angle = 2.0f;
         isFalling = true;
+        canMove = true;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            gameObject.transform.Translate(gameObject.transform.right.normalized * (-1) * speed);
+            gameObject.transform.Rotate(gameObject.transform.up, (-1) * angle);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            gameObject.transform.Translate(gameObject.transform.right.normalized * speed);
+            gameObject.transform.Rotate(gameObject.transform.up, angle);
+        }
+        if (rigidbody.velocity.y <= 0 && transform.position.y >= 5)
+        {
+            isFalling = true;
         }
         if (Input.GetKey(KeyCode.UpArrow))
         {
             gameObject.transform.Translate(gameObject.transform.forward.normalized * speed);
         }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            gameObject.transform.Translate(gameObject.transform.forward.normalized * (-1) * speed);
-        }
-        transform.rotation = dontturn;
-        if(rigidbody.velocity.y <=0 && transform.position.y >= 5)
-        {
-            isFalling = true;
-        }
-	}
+    }
     
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Tile") && isFalling) 
         {
-            Debug.Log(rigidbody.velocity.y);
             isFalling = false;
             cmyk += CMYK.RGBToCMYK(collision.gameObject.GetComponentInChildren<MeshRenderer>().material.color);
             gameObject.GetComponent<MeshRenderer>().material.color = cmyk.CMYKToRGB();
             rigidbody.AddForce(collision.gameObject.transform.up * 300, ForceMode.Acceleration);
         }
+    }
+
+    private IEnumerator PlayerMovement()
+    {
+        yield return null;
     }
 }
