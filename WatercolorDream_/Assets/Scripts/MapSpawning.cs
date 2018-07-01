@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class MapSpawning : MonoBehaviour {
 
-    public List<Map> maps = new List<Map>();
+    //public List<Map> maps = new List<Map>();
     public GameObject area, player;
     public Map curMap;
     public int stageNum;
@@ -15,10 +15,10 @@ public class MapSpawning : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        ImportingMap();
+        //ImportingMap();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         stageNum = gameManager.stageNum;
-        curMap = maps[stageNum];
+        curMap = gameManager.stages[stageNum];
         MapSpawn();
         gameManager.fsm.UpdateStates();
 	}
@@ -29,70 +29,10 @@ public class MapSpawning : MonoBehaviour {
             NextStage();
 	}
 
-    void ImportingMap()
-    {
-        StreamReader file = new StreamReader("Assets\\Scripts\\MapList2.txt");
-        bool isFile = file != null ? true : false;
-        Debug.Log(isFile);
-        string curLine = file.ReadLine();
-
-        while (curLine != null)
-        {
-            Debug.Log("start importing");
-
-            if (curLine.StartsWith("st"))
-            {
-                Debug.Log("stage");
-                Map thisStage = new Map();
-                int areaNum = 0;
-                //List<int> areaPosArr = new List<int>();
-
-                while (true)
-                {
-                    curLine = file.ReadLine();
-                    if (curLine.StartsWith("end"))
-                        break;
-                    Debug.Log("area" + areaNum);
-                    int i = 0;
-                    string[] dataArr = curLine.Split(' ');
-                    int[] areaArr = new int[7];
-                    int nextPosition = -1;
-                    Color[] colors = new Color[7];
-
-                    foreach (var t in dataArr)
-                    {
-                        if (t[0] - '0' >= 0 && t[0] - '0' <= 3)
-                        {
-                            areaArr[i] = t[0] - '0';
-                            if(t[0] - '0' != 0)
-                            {
-                                string[] colorData = t.Split(',', '(', ')');
-                                colors[i].r = Convert.ToInt32(colorData[1]) / 255.0f;
-                                colors[i].g = Convert.ToInt32(colorData[2]) / 255.0f;
-                                colors[i].b = Convert.ToInt32(colorData[3]) / 255.0f;
-                            }
-                            i++;
-                        }
-                        else
-                        {
-                            nextPosition = t[0] - '4';
-                        }
-                    }
-                    thisStage.AddArea(areaArr, nextPosition, colors);
-                    areaNum++;
-                }
-                maps.Add(thisStage);
-            }
-            curLine = file.ReadLine();
-        }
-
-        file.Close();
-    }
-
     void NextStage()
     {
         stageNum++;
-        curMap = maps[stageNum];
+        curMap = gameManager.stages[stageNum];
         Destroy(GameObject.Find("curStage"));
         MapSpawn();
 

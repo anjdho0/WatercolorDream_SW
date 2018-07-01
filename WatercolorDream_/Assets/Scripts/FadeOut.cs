@@ -9,7 +9,7 @@ public class FadeOut : MonoBehaviour {
     bool isEnd;
     Image screen;
 
-	void Start () {
+	void Awake () {
         isEnd = false;
         screen = gameObject.GetComponent<Image>();
 	}
@@ -26,13 +26,15 @@ public class FadeOut : MonoBehaviour {
 
     private IEnumerator Fadeout()
     {
-        while(screen.color.a >= 1.0f)
+        Debug.Log("Darken");
+        while(screen.color.a <= 1.0f)
         {
             Color color = screen.color;
             color.a += 0.05f;
             screen.color = color;
             yield return null;
         }
+        isEnd = true;
         yield return null;
     }
 }

@@ -13,6 +13,7 @@ public class Player : MonoBehaviour {
     bool isFalling;
     bool canMove;
     GameManager gameManager;
+    Touch touch;
 
 	// Use this for initialization
 	void Start () {
@@ -21,29 +22,52 @@ public class Player : MonoBehaviour {
         cmyk = new CMYK(Color.white);
         scope = GetComponentInChildren<Camera>();
         rigidbody = GetComponent<Rigidbody>();
-        speed = 0.3f;
+        speed = 0.15f;
         angle = 2.0f;
         isFalling = true;
         canMove = true;
+        rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+
 	}
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if(gameManager.fsm.current != StateType.InGame && canMove)
         {
-            gameObject.transform.Rotate(gameObject.transform.up, (-1) * angle);
+            canMove = false;
+            Debug.Log("CannotMove");
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        else if(gameManager.fsm.current == StateType.InGame && !canMove)
         {
-            gameObject.transform.Rotate(gameObject.transform.up, angle);
+            canMove = true;
+            Debug.Log("CanMove");
+        }
+        if(Input.touchCount > 0)
+        {
+            touch = Input.GetTouch(0);
+        }
+        if (canMove)
+        {
+            if (Input.GetKey(KeyCode.LeftArrow) || touch.position.x < 0)
+            {
+                gameObject.transform.Rotate(gameObject.transform.up, (-1) * angle);
+            }
+            if (Input.GetKey(KeyCode.RightArrow) || touch.position.x > 0)
+            {
+                gameObject.transform.Rotate(gameObject.transform.up, angle);
+            }
+            if (gameObject.transform.position.y <= -10 && gameManager.fsm.current != StateType.GameOver)
+            {
+                gameManager.fsm.next = StateType.GameOver;
+            }
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                gameObject.transform.Translate((gameObject.transform.forward.normalized) * speed, Space.World);
+            }
         }
         if (rigidbody.velocity.y <= 0 && transform.position.y >= 5)
         {
             isFalling = true;
-        }
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            gameObject.transform.Translate(gameObject.transform.forward.normalized * speed);
         }
     }
     
@@ -55,12 +79,13 @@ public class Player : MonoBehaviour {
             isFalling = false;
             cmyk += CMYK.RGBToCMYK(collision.gameObject.GetComponentInChildren<MeshRenderer>().material.color);
             gameObject.GetComponent<MeshRenderer>().material.color = cmyk.CMYKToRGB();
-            rigidbody.AddForce(collision.gameObject.transform.up * 300, ForceMode.Acceleration);
+            rigidbody.AddForce(collision.gameObject.transform.up * 600, ForceMode.Acceleration);
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("DestTile"))
+        {
+            gameManager.fsm.next = StateType.Clear;
         }
     }
 
-    private IEnumerator PlayerMovement()
-    {
-        yield return null;
-    }
+   
 }

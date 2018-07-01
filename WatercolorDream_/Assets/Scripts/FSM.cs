@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -100,6 +101,11 @@ public class FSM  {
     void OnStateGameOver()
     {
         Debug.Log("GameOver");
+        GameObject.Find("Canvas").transform.Find("InGameMenu").gameObject.SetActive(false);
+        GameObject fadeoutscreen = GameObject.Find("Canvas").transform.Find("FadeOut").gameObject;
+        fadeoutscreen.SetActive(true);
+        fadeoutscreen.GetComponent<FadeOut>().FadeOutStart();
+        GameObject.Find("Canvas").transform.Find("GameOver").gameObject.SetActive(true);
     }
 
     void OnStateInGameMenu()
@@ -126,16 +132,18 @@ public class FSM  {
     {
         Debug.Log("Resume");
         Time.timeScale = 1;
+        next = StateType.InGame;
     }
 
     void OnStateClear()
     {
-
+        Debug.Log("Clear");
+        StreamWriter streamWriter = new StreamWriter("Assets\\Scripts\\MapListCopy.txt");
     }
 
     void OnStateResult()
     {
-
+        Debug.Log("Result");
     }
     #endregion
 

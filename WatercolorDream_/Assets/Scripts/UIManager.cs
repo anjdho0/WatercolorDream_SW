@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
     [SerializeField]
-    GameObject MainMenu, SelectStage, InGameMenu;
+    GameObject MainMenu, SelectStage, InGameMenu, Clear;
 
     GameManager gameManager;
 
@@ -23,6 +24,13 @@ public class UIManager : MonoBehaviour {
         Debug.Log("SelectStageclicked");
         MainMenu.SetActive(false);
         SelectStage.SetActive(true);
+        for(int i = 0; i < gameManager.stages.Count; i++)
+        {
+            if (gameManager.stages[i].isCleared)
+            {
+                SelectStage.transform.Find("stage" + (i + 1).ToString()).gameObject.GetComponent<Image>().color = Color.red;
+            }
+        }
         gameManager.fsm.next = StateType.SelectStage;
     }
 
@@ -45,13 +53,15 @@ public class UIManager : MonoBehaviour {
     public void OnClickedInGameMenu()
     {
         gameManager.fsm.next = StateType.InGameMenu;
-        InGameMenu.SetActive(true);
+        InGameMenu.transform.Find("Options").gameObject.SetActive(true);
+        InGameMenu.transform.Find("MenuButton").gameObject.SetActive(false);
     }
 
     public void OnClickedResume()
     {
         gameManager.fsm.next = StateType.Resume;
-        InGameMenu.SetActive(false);
+        InGameMenu.transform.Find("Options").gameObject.SetActive(false);
+        InGameMenu.transform.Find("MenuButton").gameObject.SetActive(true);
     }
 
     public void OnClickedRetry()

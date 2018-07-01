@@ -7,6 +7,7 @@ public class Map {
     public List<TileTypes[]> map;
     public List<Color[]> areaColors;
     public List<NextAreaPos> areasPos;
+    public bool isCleared = false;
 
     public Map()
     {
