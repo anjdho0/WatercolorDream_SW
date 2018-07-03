@@ -560,7 +560,7 @@ GameObject:
   - component: {fileID: 1049380378}
   - component: {fileID: 1049380377}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SelectStageButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -626,10 +626,10 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1376594107}
         m_MethodName: OnClickedSelectStageButton
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1049380375}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -861,6 +861,7 @@ MonoBehaviour:
   MainMenu: {fileID: 1961399184}
   SelectStage: {fileID: 1876806551}
   InGameMenu: {fileID: 0}
+  Finish: {fileID: 0}
 --- !u!1 &1439052358
 GameObject:
   m_ObjectHideFlags: 0

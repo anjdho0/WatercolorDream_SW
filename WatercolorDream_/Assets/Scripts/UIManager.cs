@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
     [SerializeField]
-    GameObject MainMenu, SelectStage, InGameMenu, Clear;
+    GameObject MainMenu, SelectStage, InGameMenu, Finish;
 
     GameManager gameManager;
 
@@ -19,8 +20,12 @@ public class UIManager : MonoBehaviour {
 		
 	}
 
-    public void OnClickedSelectStageButton()
+    public void OnClickedSelectStageButton(GameObject button)
     {
+        if (button.transform.parent.name.Equals("Result"))
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
         Debug.Log("SelectStageclicked");
         MainMenu.SetActive(false);
         SelectStage.SetActive(true);

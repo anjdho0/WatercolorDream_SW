@@ -63,6 +63,7 @@ public class FSM  {
             Debug.Log("updateStates");
         }
     }
+    
 
     #region OnStates
     void OnStateLoadTitle()
@@ -96,6 +97,7 @@ public class FSM  {
     void OnStateInGame()
     {
         Debug.Log("InGame");
+        Time.timeScale = 1;
     }
 
     void OnStateGameOver()
@@ -117,33 +119,32 @@ public class FSM  {
     void OnStateRetry()
     {
         Debug.Log("Retry");
-        Time.timeScale = 1;
         next = StateType.LoadStage;
     }
 
     void OnStateGiveUp()
     {
         Debug.Log("GiveUp");
-        Time.timeScale = 1;
         next = StateType.LoadTitle;
     }
 
     void OnStateResume()
     {
         Debug.Log("Resume");
-        Time.timeScale = 1;
         next = StateType.InGame;
     }
 
     void OnStateClear()
     {
         Debug.Log("Clear");
-        StreamWriter streamWriter = new StreamWriter("Assets\\Scripts\\MapListCopy.txt");
+        //StreamWriter streamWriter = new StreamWriter("Assets\\Scripts\\MapListCopy.txt");
+        next = StateType.Result;
     }
 
     void OnStateResult()
     {
         Debug.Log("Result");
+        GameObject.Find("Canvas").transform.Find("Finish").gameObject.SetActive(true);
     }
     #endregion
 
