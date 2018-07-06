@@ -68,6 +68,11 @@ public class Player : MonoBehaviour {
             }
         }
 
+        if(cmyk.CMYKToRGB() == Color.black)
+        {
+            gameManager.fsm.next = StateType.GameOver;
+        }
+
         if (rigidbody.velocity.y <= 0 && transform.position.y >= 5)
         {
             isFalling = true;
@@ -88,6 +93,7 @@ public class Player : MonoBehaviour {
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("DestTile"))
         {
+            Debug.Log("finished");
             Time.timeScale = 0;
             if(CalculateScore(CMYK.RGBToCMYK(collision.gameObject.GetComponent<MeshRenderer>().material.color), cmyk))
             {
@@ -103,57 +109,66 @@ public class Player : MonoBehaviour {
         {
             RaycastHit hit;
             Physics.Raycast(transform.position, transform.up * (-1), out hit);
-            DrawingScope((transform.forward.normalized * 18.44998f) + hit.point);
+            DrawingScope((transform.forward.normalized * 18.44998f) + hit.point + new Vector3(0, 0.001f, 0));
         }
         else
         {
             RaycastHit hit;
             Physics.Raycast(transform.position, transform.up * (-1), out hit);
-            scope.transform.position = hit.point + (transform.forward.normalized * 18.44998f);
+            scope.transform.position = hit.point + (transform.forward.normalized * 18.44998f) + new Vector3(0, 0.001f, 0);
         }
     }
 
     void DrawingScope(Vector3 pos)
     {
-        scope = new GameObject("Scope");
+        scope = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        scope.name = "scope";
         scope.transform.position = pos;
-        Mesh mesh = new Mesh();
-        MeshRenderer meshRenderer = scope.AddComponent<MeshRenderer>();
-        MeshFilter meshFilter = scope.AddComponent<MeshFilter>();
-        meshFilter.mesh = mesh;
-        meshRenderer.material = Resources.Load<Material>("Glass");
-        Vector3[] vertices = new Vector3[361];
-        Vector2[] uvs = new Vector2[361];
-        int[] triangles = new int[360 * 3];
-        vertices[0] = new Vector3(0, 0, 0);
-        uvs[0] = new Vector2(0, 0);
-        float angle = Mathf.PI / 180;
+        scope.transform.localScale *= 0.1f;
+        //scope = new GameObject("Scope");
+        //scope.transform.position = pos;
+        //Mesh mesh = new Mesh();
+        //MeshRenderer meshRenderer = scope.AddComponent<MeshRenderer>();
+        //MeshFilter meshFilter = scope.AddComponent<MeshFilter>();
+        //meshFilter.mesh = mesh;
+        //meshRenderer.material = Resources.Load<Material>("Glass");
+        //Vector3[] vertices = new Vector3[361];
+        //Vector2[] uvs = new Vector2[361];
+        //int[] triangles = new int[360 * 3];
+        //vertices[0] = new Vector3(0, 0, 0);
+        //uvs[0] = new Vector2(0, 0);
+        //float angle = Mathf.PI / 180;
 
-        for (int i = 1; i < 361; i++)
-        {
-            float x = Mathf.Cos(angle * (i - 1));
-            float y = Mathf.Sin(angle * (i - 1));
-            vertices[i] = new Vector3(x, 0, y);
-            uvs[i] = new Vector2(x, y);
-        }
+        //for (int i = 1; i < 361; i++)
+        //{
+        //    float x = Mathf.Cos(angle * (i - 1));
+        //    float y = Mathf.Sin(angle * (i - 1));
+        //    vertices[i] = new Vector3(x, 0, y);
+        //    uvs[i] = new Vector2(x, y);
+        //}
 
-        int index = 1;
-        for(int i = 0; i < triangles.Length; i += 3)
-        {
-            triangles[i] = 0;
-            triangles[i + 1] = index;
-            triangles[i + 2] = index != 360 ? index + 1 : 1;
-            index++;
-        }
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
-        mesh.RecalculateNormals();
-        mesh.RecalculateBounds();
+        //int index = 1;
+        //for(int i = 0; i < triangles.Length; i += 3)
+        //{
+        //    triangles[i] = 0;
+        //    triangles[i + 1] = index;
+        //    triangles[i + 2] = index != 360 ? index + 1 : 1;
+        //    index++;
+        //}
+        //mesh.vertices = vertices;
+        //mesh.triangles = triangles;
+        //mesh.RecalculateNormals();
+        //mesh.RecalculateBounds();
     }
 
     bool CalculateScore(CMYK tile, CMYK player)
     {
-        float score = 0.1f;
+        Vector3 v1 = new Vector3(tile.c, tile.m, tile.y);
+        Vector3 v2 = new Vector3(player.c, player.m, player.y);
+        v2 = v2 / v2.magnitude;
+        float score = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+        Debug.Log(score);
+        gameManager.score = score;
         if (score > 0.99f)
         {
             Debug.Log("Complete");
@@ -164,9 +179,8 @@ public class Player : MonoBehaviour {
             Debug.Log("Clear");
             return true;
         }
-        return true;
-        //Debug.Log("Fail");
-        // return false;
+        Debug.Log("Fail");
+        return false;
     }
 
 }

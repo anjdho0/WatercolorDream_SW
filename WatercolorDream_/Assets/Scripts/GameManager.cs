@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
     public FSM fsm = new FSM();
     public List<Map> stages = new List<Map>();
     public int stageNum = 0;
+    public float score;
 
 	void Awake () {
         ImportingMap();

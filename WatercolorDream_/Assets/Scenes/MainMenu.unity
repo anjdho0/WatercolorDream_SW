@@ -1256,6 +1256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageNum: 0
+  score: 0
 --- !u!4 &1665124163
 Transform:
   m_ObjectHideFlags: 0

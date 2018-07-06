@@ -137,7 +137,39 @@ public class FSM  {
     void OnStateClear()
     {
         Debug.Log("Clear");
-        //StreamWriter streamWriter = new StreamWriter("Assets\\Scripts\\MapListCopy.txt");
+        StreamReader streamReader = new StreamReader("Assets\\Scripts\\MapListCopy.txt");
+        List<string> allstrs = new List<string>();
+        string curLine = streamReader.ReadLine();
+        int ClrStageNum = GameObject.Find("GameManager").GetComponent<GameManager>().stageNum + 1;
+        while(curLine != null)
+        {
+            allstrs.Add(curLine);
+            curLine = streamReader.ReadLine();
+        }
+
+        for(int i = 0; i < allstrs.Count; i++)
+        {
+            Debug.Log(allstrs[i]);
+            if (allstrs[i].StartsWith("st" + ClrStageNum.ToString()) && !allstrs[i].EndsWith("C"))
+            {
+                allstrs[i] += " C";
+                Debug.Log(allstrs[i]);
+                break;
+            }
+        }
+
+        streamReader.Close();
+        Debug.Log("fileread");
+        StreamWriter streamWriter = new StreamWriter("Assets\\Scripts\\MapListCopy.txt", false);
+        
+        for(int i = 0; i < allstrs.Count; i++)
+        {
+            if(!allstrs[i].Equals(""))
+                streamWriter.WriteLine(allstrs[i]);
+        }
+
+        streamWriter.Close();
+        Debug.Log("filewrite");
         next = StateType.Result;
     }
 
