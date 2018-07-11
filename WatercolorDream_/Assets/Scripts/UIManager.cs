@@ -17,8 +17,16 @@ public class UIManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (gameManager.fsm.current == StateType.Result)
+        {
+            ScoreUpdate();
+        }
 	}
+
+    void ScoreUpdate()
+    {
+        Finish.transform.Find("Result/Text").GetComponent<Text>().text = "Result\n" + Mathf.Round(gameManager.score * 100).ToString() + "%";
+    }
 
     public void OnClickedSelectStageButton(GameObject button)
     {

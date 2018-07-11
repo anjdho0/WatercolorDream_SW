@@ -186,9 +186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0286d3ba249a334fa0abc07f68ca813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scope: {fileID: 0}
-  rigidbody: {fileID: 0}
-  speed: 0
+  scopeSprite: {fileID: 1336941377485502, guid: 3c0a8e59980dc2c428f8c3349a244814,
+    type: 2}
 --- !u!124 &124287474750628226
 Behaviour:
   m_ObjectHideFlags: 1

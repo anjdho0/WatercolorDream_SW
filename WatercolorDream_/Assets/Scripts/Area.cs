@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class Area : MonoBehaviour {
 
     public GameObject[] tiles;
@@ -32,7 +32,10 @@ public class Area : MonoBehaviour {
                 Destroy(tiles[i]);
 
             if (area[i] == TileTypes.starttile)
+            {
+                tiles[i].layer = LayerMask.NameToLayer("StartTile");
                 tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
+            }
 
             if (area[i] == TileTypes.normaltile)
                 tiles[i].GetComponent<MeshRenderer>().material.color = colors[i];

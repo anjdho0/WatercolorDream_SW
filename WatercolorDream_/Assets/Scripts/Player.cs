@@ -5,16 +5,16 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     public CMYK cmyk;
-    public Rigidbody rigidbody;
+    public GameObject scopeSprite;
+    GameObject scope;
+    Rigidbody rigidbody;
     float speed;
     float angle;
-    Quaternion dontturn;
     bool isFalling;
     bool canMove;
+    bool isStarted;
     GameManager gameManager;
     Touch touch;
-    GameObject scope;
-    float dist;
 
 	// Use this for initialization
 	void Start () {
@@ -27,23 +27,25 @@ public class Player : MonoBehaviour {
         isFalling = true;
         canMove = true;
         rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        isStarted = false;
 
 	}
 
     // Update is called once per frame
-    void FixedUpdate() { //공중에 있는시간 : 2.459998 앞으로 가는거리 : 18.44998
-        if(gameManager.fsm.current != StateType.InGame && canMove)
+    void FixedUpdate()
+    { //공중에 있는시간 : 2.459998 앞으로 가는거리 : 18.44998
+        if (gameManager.fsm.current != StateType.InGame && canMove)
         {
             canMove = false;
             Debug.Log("CannotMove");
         }
-        else if(gameManager.fsm.current == StateType.InGame && !canMove)
+        else if (gameManager.fsm.current == StateType.InGame && !canMove)
         {
             canMove = true;
             Debug.Log("CanMove");
         }
 
-        if(Input.touchCount > 0)
+        if (Input.touchCount > 0)
         {
             touch = Input.GetTouch(0);
         }
@@ -68,7 +70,7 @@ public class Player : MonoBehaviour {
             }
         }
 
-        if(cmyk.CMYKToRGB() == Color.black)
+        if (cmyk.CMYKToRGB() == Color.black)
         {
             gameManager.fsm.next = StateType.GameOver;
         }
@@ -78,14 +80,22 @@ public class Player : MonoBehaviour {
             isFalling = true;
         }
 
-        transform.Translate((transform.forward.normalized) * speed, Space.World);
+        if (isStarted)
+        {
+            transform.Translate((transform.forward.normalized) * speed, Space.World);
+        }
     }
     
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Tile") && isFalling) 
+        if ((collision.gameObject.layer == LayerMask.NameToLayer("Tile") || collision.gameObject.layer == LayerMask.NameToLayer("StartTile")) && isFalling) 
         {
+            if(collision.gameObject.layer == LayerMask.NameToLayer("StartTile"))
+            {
+                isStarted = true;
+            }
+
             isFalling = false;
             cmyk += CMYK.RGBToCMYK(collision.gameObject.GetComponent<MeshRenderer>().material.color);
             GetComponent<MeshRenderer>().material.color = cmyk.CMYKToRGB();
@@ -121,44 +131,10 @@ public class Player : MonoBehaviour {
 
     void DrawingScope(Vector3 pos)
     {
-        scope = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        scope = Instantiate(scopeSprite);
         scope.name = "scope";
         scope.transform.position = pos;
-        scope.transform.localScale *= 0.1f;
-        //scope = new GameObject("Scope");
-        //scope.transform.position = pos;
-        //Mesh mesh = new Mesh();
-        //MeshRenderer meshRenderer = scope.AddComponent<MeshRenderer>();
-        //MeshFilter meshFilter = scope.AddComponent<MeshFilter>();
-        //meshFilter.mesh = mesh;
-        //meshRenderer.material = Resources.Load<Material>("Glass");
-        //Vector3[] vertices = new Vector3[361];
-        //Vector2[] uvs = new Vector2[361];
-        //int[] triangles = new int[360 * 3];
-        //vertices[0] = new Vector3(0, 0, 0);
-        //uvs[0] = new Vector2(0, 0);
-        //float angle = Mathf.PI / 180;
-
-        //for (int i = 1; i < 361; i++)
-        //{
-        //    float x = Mathf.Cos(angle * (i - 1));
-        //    float y = Mathf.Sin(angle * (i - 1));
-        //    vertices[i] = new Vector3(x, 0, y);
-        //    uvs[i] = new Vector2(x, y);
-        //}
-
-        //int index = 1;
-        //for(int i = 0; i < triangles.Length; i += 3)
-        //{
-        //    triangles[i] = 0;
-        //    triangles[i + 1] = index;
-        //    triangles[i + 2] = index != 360 ? index + 1 : 1;
-        //    index++;
-        //}
-        //mesh.vertices = vertices;
-        //mesh.triangles = triangles;
-        //mesh.RecalculateNormals();
-        //mesh.RecalculateBounds();
+        scope.transform.Rotate(new Vector3(1, 0, 0), 90);
     }
 
     bool CalculateScore(CMYK tile, CMYK player)
@@ -179,8 +155,28 @@ public class Player : MonoBehaviour {
             Debug.Log("Clear");
             return true;
         }
+
         Debug.Log("Fail");
         return false;
+    }
+
+    Color GetColorUnderScope()
+    {
+        Color color;
+        RaycastHit hit;
+        Physics.Raycast(scope.transform.position, new Vector3(0, 1, 0), out hit);
+        GameObject hitted = hit.collider.gameObject;
+        if(hitted.layer == LayerMask.NameToLayer("Tile"))
+        {
+            color = hitted.GetComponent<MeshRenderer>().material.color;
+            Debug.Log("getcolor");
+            return color;
+        }
+        else
+        {
+            return cmyk.CMYKToRGB();
+        }
+
     }
 
 }
