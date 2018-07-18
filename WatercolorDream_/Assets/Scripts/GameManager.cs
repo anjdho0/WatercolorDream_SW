@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	void Update () {
+        if(fsm.next == StateType.LoadTitle)
+        {
+            ImportingMap();
+        }
         fsm.UpdateStates();
 	}
 

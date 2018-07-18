@@ -62,6 +62,7 @@ public class UIManager : MonoBehaviour {
         if (button.transform.parent.name.Equals("Result"))
         {
             SceneManager.LoadScene("MainMenu");
+            gameManager.fsm.next = StateType.LoadTitle;
         }
         Debug.Log("SelectStageclicked");
         MainMenu.SetActive(false);
@@ -105,7 +106,7 @@ public class UIManager : MonoBehaviour {
         gameManager.fsm.next = StateType.Resume;
         InGameMenu.transform.Find("Options").gameObject.SetActive(false);
         InGameMenu.transform.Find("MenuButton").gameObject.SetActive(true);        
-        InGameUI.SetActive(false);
+        InGameUI.SetActive(true);
     }
 
     public void OnClickedRetry()

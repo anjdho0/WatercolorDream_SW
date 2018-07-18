@@ -139,7 +139,7 @@ public class FSM  {
     void OnStateClear()
     {
         Debug.Log("Clear");
-        StreamReader streamReader = new StreamReader("Assets\\Scripts\\MapListCopy.txt");
+        StreamReader streamReader = new StreamReader("Assets\\Scripts\\MapList.txt");
         List<string> allstrs = new List<string>();
         string curLine = streamReader.ReadLine();
         int ClrStageNum = GameObject.Find("GameManager").GetComponent<GameManager>().stageNum + 1;
@@ -162,7 +162,7 @@ public class FSM  {
 
         streamReader.Close();
         Debug.Log("fileread");
-        StreamWriter streamWriter = new StreamWriter("Assets\\Scripts\\MapListCopy.txt", false);
+        StreamWriter streamWriter = new StreamWriter("Assets\\Scripts\\MapList.txt", false);
         
         for(int i = 0; i < allstrs.Count; i++)
         {
