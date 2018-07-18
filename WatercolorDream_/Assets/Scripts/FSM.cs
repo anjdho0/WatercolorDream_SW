@@ -103,11 +103,13 @@ public class FSM  {
     void OnStateGameOver()
     {
         Debug.Log("GameOver");
-        GameObject.Find("Canvas").transform.Find("InGameMenu").gameObject.SetActive(false);
+        GameObject canvas = GameObject.Find("Canvas");
+        canvas.transform.Find("InGameMenu").gameObject.SetActive(false);
         GameObject fadeoutscreen = GameObject.Find("Canvas").transform.Find("FadeOut").gameObject;
         fadeoutscreen.SetActive(true);
         fadeoutscreen.GetComponent<FadeOut>().FadeOutStart();
-        GameObject.Find("Canvas").transform.Find("GameOver").gameObject.SetActive(true);
+        canvas.transform.Find("InGameUI").gameObject.SetActive(false);
+        canvas.transform.Find("GameOver").gameObject.SetActive(true);
     }
 
     void OnStateInGameMenu()
@@ -176,7 +178,10 @@ public class FSM  {
     void OnStateResult()
     {
         Debug.Log("Result");
-        GameObject.Find("Canvas").transform.Find("Finish").gameObject.SetActive(true);
+        GameObject canvas = GameObject.Find("Canvas");
+        canvas.transform.Find("Finish").gameObject.SetActive(true);
+        canvas.transform.Find("InGameMenu").gameObject.SetActive(false);
+        canvas.transform.Find("InGameUI").gameObject.SetActive(false);
     }
     #endregion
 

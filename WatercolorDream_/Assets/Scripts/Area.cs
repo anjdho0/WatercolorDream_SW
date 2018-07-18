@@ -38,7 +38,10 @@ public class Area : MonoBehaviour {
             }
 
             if (area[i] == TileTypes.normaltile)
+            {
+                tiles[i].layer = LayerMask.NameToLayer("Tile");
                 tiles[i].GetComponent<MeshRenderer>().material.color = colors[i];
+            }
 
             if (area[i] == TileTypes.desttile)
             {

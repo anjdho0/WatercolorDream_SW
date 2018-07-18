@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-    public CMYK cmyk;
+    public CMYK cmyk, nextcmyk;
     public GameObject scopeSprite;
     GameObject scope;
     Rigidbody rigidbody;
@@ -29,7 +29,11 @@ public class Player : MonoBehaviour {
         rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         isStarted = false;
 
-	}
+        RaycastHit hit;
+        Physics.Raycast(transform.position, transform.up * (-1), out hit);
+        DrawingScope(hit.point + new Vector3(0, 0.001f, 0));
+
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -84,6 +88,8 @@ public class Player : MonoBehaviour {
         {
             transform.Translate((transform.forward.normalized) * speed, Space.World);
         }
+
+        nextcmyk = GetColorUnderScope();
     }
     
 
@@ -115,13 +121,7 @@ public class Player : MonoBehaviour {
             }
         }
 
-        if(scope == null)
-        {
-            RaycastHit hit;
-            Physics.Raycast(transform.position, transform.up * (-1), out hit);
-            DrawingScope((transform.forward.normalized * 18.44998f) + hit.point + new Vector3(0, 0.001f, 0));
-        }
-        else
+        if (scope != null)
         {
             RaycastHit hit;
             Physics.Raycast(transform.position, transform.up * (-1), out hit);
@@ -145,7 +145,7 @@ public class Player : MonoBehaviour {
         float score = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
         Debug.Log(score);
         gameManager.score = score;
-        if (score > 0.99f)
+        if (score >= 0.99f)
         {
             Debug.Log("Complete");
             return true;
@@ -160,21 +160,28 @@ public class Player : MonoBehaviour {
         return false;
     }
 
-    Color GetColorUnderScope()
+    CMYK GetColorUnderScope()
     {
         Color color;
         RaycastHit hit;
-        Physics.Raycast(scope.transform.position, new Vector3(0, 1, 0), out hit);
-        GameObject hitted = hit.collider.gameObject;
-        if(hitted.layer == LayerMask.NameToLayer("Tile"))
+        GameObject hitted;
+        if (Physics.Raycast(scope.transform.position, new Vector3(0, -1, 0), out hit))
         {
-            color = hitted.GetComponent<MeshRenderer>().material.color;
-            Debug.Log("getcolor");
-            return color;
+            hitted = hit.collider.gameObject;
         }
         else
         {
-            return cmyk.CMYKToRGB();
+            return cmyk;
+        }
+        
+        if(hitted.layer == LayerMask.NameToLayer("Tile"))
+        {
+            color = hitted.GetComponent<MeshRenderer>().material.color;
+            return cmyk + CMYK.RGBToCMYK(color);
+        }
+        else
+        {
+            return cmyk;
         }
 
     }

@@ -42,7 +42,7 @@ public class MapSpawning : MonoBehaviour {
     {
         GameObject curStage = new GameObject("curStage");
         Vector3 areaSpawnPos = transform.position;
-        Instantiate(player,transform.position + new Vector3(0, 5, 0), transform.rotation);
+        Instantiate(player,transform.position + new Vector3(0, 10, 0), transform.rotation);
 
 		for(int i = 0; i < curMap.map.Count; i++)
         {

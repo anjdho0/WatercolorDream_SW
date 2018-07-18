@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour {
 
     [SerializeField]
-    GameObject MainMenu, SelectStage, InGameMenu, Finish;
+    GameObject MainMenu, SelectStage, InGameMenu, Finish, C_param, M_param, Y_param, InGameUI;
 
     GameManager gameManager;
 
@@ -21,11 +21,40 @@ public class UIManager : MonoBehaviour {
         {
             ScoreUpdate();
         }
+
+        if (gameManager.fsm.current == StateType.InGame)
+        {
+            ParameterUpdate();
+        }
 	}
 
     void ScoreUpdate()
     {
-        Finish.transform.Find("Result/Text").GetComponent<Text>().text = "Result\n" + Mathf.Round(gameManager.score * 100).ToString() + "%";
+        if(gameManager.score > 0.99f)
+        {
+            Finish.transform.Find("Result/ResultState.Complete").gameObject.SetActive(true);
+        }
+        else if (gameManager.score > 0.7f)
+        {
+            Finish.transform.Find("Result/ResultState/Clear").gameObject.SetActive(true);
+        }
+        else
+        {
+            Finish.transform.Find("Result/ResultState/Failed").gameObject.SetActive(true);
+        }
+        Finish.transform.Find("Result/Score").GetComponent<Text>().text = "Result\n" + Mathf.Round(gameManager.score * 100).ToString() + "%";
+    }
+
+    void ParameterUpdate()
+    {
+        Player player = GameObject.Find("Player(Clone)").GetComponent<Player>();
+        C_param.GetComponent<Slider>().value = player.cmyk.c;
+        M_param.GetComponent<Slider>().value = player.cmyk.m;
+        Y_param.GetComponent<Slider>().value = player.cmyk.y;
+
+        C_param.transform.Find("Next").GetComponent<Slider>().value = player.nextcmyk.c;
+        M_param.transform.Find("Next").GetComponent<Slider>().value = player.nextcmyk.m;
+        Y_param.transform.Find("Next").GetComponent<Slider>().value = player.nextcmyk.y;
     }
 
     public void OnClickedSelectStageButton(GameObject button)
@@ -68,13 +97,15 @@ public class UIManager : MonoBehaviour {
         gameManager.fsm.next = StateType.InGameMenu;
         InGameMenu.transform.Find("Options").gameObject.SetActive(true);
         InGameMenu.transform.Find("MenuButton").gameObject.SetActive(false);
+        InGameUI.SetActive(false);
     }
 
     public void OnClickedResume()
     {
         gameManager.fsm.next = StateType.Resume;
         InGameMenu.transform.Find("Options").gameObject.SetActive(false);
-        InGameMenu.transform.Find("MenuButton").gameObject.SetActive(true);
+        InGameMenu.transform.Find("MenuButton").gameObject.SetActive(true);        
+        InGameUI.SetActive(false);
     }
 
     public void OnClickedRetry()
