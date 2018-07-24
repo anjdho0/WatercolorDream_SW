@@ -7,19 +7,23 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour {
 
     [SerializeField]
-    GameObject MainMenu, SelectStage, InGameMenu, Finish, C_param, M_param, Y_param, InGameUI;
+    GameObject MainMenu, SelectStage, InGameMenu, Finish, C_param, M_param, Y_param, InGameUI, destdot, playerdot;
 
     GameManager gameManager;
+    bool resultUpdated;
 
 	void Start () {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        resultUpdated = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (gameManager.fsm.current == StateType.Result)
+        if (gameManager.fsm.current == StateType.Result && !resultUpdated)
         {
             ScoreUpdate();
+            CubeUpdate();
+            resultUpdated = true;
         }
 
         if (gameManager.fsm.current == StateType.InGame)
@@ -55,6 +59,14 @@ public class UIManager : MonoBehaviour {
         C_param.transform.Find("Next").GetComponent<Slider>().value = player.nextcmyk.c;
         M_param.transform.Find("Next").GetComponent<Slider>().value = player.nextcmyk.m;
         Y_param.transform.Find("Next").GetComponent<Slider>().value = player.nextcmyk.y;
+    }
+
+    void CubeUpdate()
+    {
+        CMYK players = GameObject.Find("Player(Clone)").GetComponent<Player>().cmyk;
+        CMYK dests = gameManager.dest;
+        destdot.transform.position += new Vector3((-1) * dests.c * 100, dests.m * 100, (-1) * dests.y * 100);
+        playerdot.transform.position += new Vector3((-1) * players.c * 100, players.m * 100, (-1) * players.y * 100);
     }
 
     public void OnClickedSelectStageButton(GameObject button)

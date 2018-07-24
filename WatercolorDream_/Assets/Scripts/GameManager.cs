@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     public List<Map> stages = new List<Map>();
     public int stageNum = 0;
     public float score;
+    public CMYK dest;
 
 	void Awake () {
         ImportingMap();

@@ -47,6 +47,7 @@ public class Area : MonoBehaviour {
             {
                 tiles[i].layer = LayerMask.NameToLayer("DestTile");
                 tiles[i].GetComponent<MeshRenderer>().material.color = colors[i];
+                GameObject.Find("GameManager").GetComponent<GameManager>().dest = CMYK.RGBToCMYK(colors[i]);
             }
         }
 
