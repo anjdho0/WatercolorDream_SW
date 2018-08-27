@@ -81,11 +81,14 @@ public class UIManager : MonoBehaviour {
         SelectStage.SetActive(true);
         for(int i = 0; i < gameManager.stages.Count; i++)
         {
-            if (gameManager.stages[i].isCleared)
+            if (! gameManager.stages[i].isCleared)
             {
-                SelectStage.transform.Find("stage" + (i + 1).ToString()).gameObject.GetComponent<Image>().color = Color.red;
+				SelectStage.transform.Find("stage" + (i + 1).ToString()).GetComponent<Button>().interactable = false;
             }
         }
+
+		GameObject.Find("Art Design").GetComponent<MainArtDesign>().ChangeLensFlare();
+
         gameManager.fsm.next = StateType.SelectStage;
     }
 
