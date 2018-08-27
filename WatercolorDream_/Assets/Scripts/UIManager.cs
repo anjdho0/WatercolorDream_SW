@@ -87,7 +87,7 @@ public class UIManager : MonoBehaviour {
             }
         }
 
-		GameObject.Find("Art Design").GetComponent<MainArtDesign>().ChangeLensFlare();
+		GameObject.Find("Art Design").GetComponent<MainArtDesign>().ChangeLensFlare(StateType.SelectStage);
 
         gameManager.fsm.next = StateType.SelectStage;
     }
@@ -99,7 +99,8 @@ public class UIManager : MonoBehaviour {
             MainMenu.SetActive(true);
             SelectStage.SetActive(false);
             gameManager.fsm.next = StateType.MainMenu;
-        }
+			GameObject.Find("Art Design").GetComponent<MainArtDesign>().ChangeLensFlare(StateType.MainMenu);
+		}
         else
         {
             gameManager.stageNum = button.name[button.name.Length - 1] - '1';

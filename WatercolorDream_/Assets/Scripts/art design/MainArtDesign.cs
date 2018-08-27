@@ -50,15 +50,18 @@ public class MainArtDesign : MonoBehaviour {
 
 	}
 
-	public void ChangeLensFlare() {
+	public void ChangeLensFlare(StateType type) {
 
 		if (lensflare == null)
 			return;
 
-		StartCoroutine(_changeLensFlare());
+		if (type == StateType.SelectStage) 
+			StartCoroutine(_ChangeLensFlareToSelectStage());
+		else if (type == StateType.MainMenu)
+			StartCoroutine(_ChangeLensFlareToMain());
 	}
 
-	IEnumerator _changeLensFlare() {
+	IEnumerator _ChangeLensFlareToSelectStage() {
 
 		for (float timer = 0.0f; timer < changeTime; timer += Time.deltaTime) {
 			lensflare.threshold = Mathf.Lerp(main.threshold, select.threshold, timer / changeTime);
@@ -68,8 +71,20 @@ public class MainArtDesign : MonoBehaviour {
 			rotateTime = Mathf.Lerp(10.0f, 30.0f, timer / changeTime);
 
 			yield return null;
+		}		
+	}
+
+	IEnumerator _ChangeLensFlareToMain() {
+
+		for (float timer = 0.0f; timer < changeTime; timer += Time.deltaTime) {
+			lensflare.threshold = Mathf.Lerp(select.threshold, main.threshold, timer / changeTime);
+			lensflare.saturation = Mathf.Lerp(select.saturation, main.saturation, timer / changeTime);
+			lensflare.flareIntensity = Mathf.Lerp(select.intensity, main.intensity, timer / changeTime);
+
+			rotateTime = Mathf.Lerp(30.0f, 10.0f, timer / changeTime);
+
+			yield return null;
 		}
-		
 	}
 
 }
