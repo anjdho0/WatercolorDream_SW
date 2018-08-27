@@ -40,13 +40,15 @@ public class Area : MonoBehaviour {
             if (area[i] == TileTypes.normaltile)
             {
                 tiles[i].layer = LayerMask.NameToLayer("Tile");
+				colors[i].a = 1.0f;
                 tiles[i].GetComponent<MeshRenderer>().material.color = colors[i];
             }
 
             if (area[i] == TileTypes.desttile)
             {
                 tiles[i].layer = LayerMask.NameToLayer("DestTile");
-                tiles[i].GetComponent<MeshRenderer>().material.color = colors[i];
+				colors[i].a = 1.0f;
+				tiles[i].GetComponent<MeshRenderer>().material.color = colors[i];
                 GameObject.Find("GameManager").GetComponent<GameManager>().dest = CMYK.RGBToCMYK(colors[i]);
             }
         }

@@ -9,8 +9,10 @@ public class MainArtDesign : MonoBehaviour {
 
 	Vector3 start;
 	Vector3 end;
+
 	float timer = 0.0f;
 	float rotateTime = 10.0f;
+
 	const float changeTime = 3.0f;
 
 	class LensFlareSetting {
@@ -29,7 +31,7 @@ public class MainArtDesign : MonoBehaviour {
 	LensFlareSetting select = new LensFlareSetting (0.6f, 1.2f, 3.0f);
 
 	void Start() {
-
+		
 		lensflare = Camera.main.GetComponent<DirtyLensFlare>();
 		start = new Vector3(80.0f, 80.0f, 80.0f);
 		end = start + new Vector3(360.0f, 360.0f, -360.0f);
@@ -39,7 +41,6 @@ public class MainArtDesign : MonoBehaviour {
 	void Update () {
 
 		if (timer < rotateTime) {
-
 			timer += Time.deltaTime;
 			Camera.main.transform.rotation = Quaternion.Euler (Vector3.Lerp(start, end, timer / rotateTime));
 

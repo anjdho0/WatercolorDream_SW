@@ -122,13 +122,15 @@ public class FSM  {
     {
         Debug.Log("Retry");
         next = StateType.LoadStage;
-    }
+		Time.timeScale = 1;
+	}
 
     void OnStateGiveUp()
     {
         Debug.Log("GiveUp");
         next = StateType.LoadTitle;
-    }
+		Time.timeScale = 1;
+	}
 
     void OnStateResume()
     {

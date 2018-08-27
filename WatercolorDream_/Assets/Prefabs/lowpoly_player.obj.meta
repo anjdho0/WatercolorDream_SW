@@ -1,24 +1,19 @@
 fileFormatVersion: 2
-guid: 0bc1683a193a8db4da05562925e17bff
-timeCreated: 1522811159
+guid: 35c585da21a882d409d1ddb5ec8a2f63
+timeCreated: 1535371090
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: Cylinder001
+    100000: default
     100002: //RootNode
-    400000: Cylinder001
+    400000: default
     400002: //RootNode
-    2100000: wire_006135058
-    2300000: Cylinder001
-    3300000: Cylinder001
-    4300000: Cylinder001
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: wire_006135058
-    second: {fileID: 2100000, guid: 1d8f56831a014644797a438ce8647719, type: 2}
+    2100000: defaultMat
+    2300000: default
+    3300000: default
+    4300000: default
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0

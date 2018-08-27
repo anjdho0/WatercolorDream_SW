@@ -46,7 +46,7 @@ public class UIManager : MonoBehaviour {
         {
             Finish.transform.Find("Result/ResultState/Failed").gameObject.SetActive(true);
         }
-        Finish.transform.Find("Result/Score").GetComponent<Text>().text = "Result\n" + Mathf.Round(gameManager.score * 100).ToString() + "%";
+        Finish.transform.Find("Result/Score").GetComponent<Text>().text = Mathf.Round(gameManager.score * 100).ToString() + "%";
     }
 
     void ParameterUpdate()
@@ -65,8 +65,11 @@ public class UIManager : MonoBehaviour {
     {
         CMYK players = GameObject.Find("Player(Clone)").GetComponent<Player>().cmyk;
         CMYK dests = gameManager.dest;
-        destdot.transform.position += new Vector3((-1) * dests.c * 100, dests.m * 100, (-1) * dests.y * 100);
-        playerdot.transform.position += new Vector3((-1) * players.c * 100, players.m * 100, (-1) * players.y * 100);
+
+		Debug.Log(players.c + ", " + players.m + ", " + players.y);
+
+        destdot.transform.localPosition += new Vector3((-1) * dests.c * 300, dests.m * 300, dests.y * 300);
+        playerdot.transform.localPosition += new Vector3((-1) * players.c * 300, players.m * 300, players.y * 300);
     }
 
     public void OnClickedSelectStageButton(GameObject button)
